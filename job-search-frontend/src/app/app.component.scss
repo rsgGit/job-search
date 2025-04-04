@@ -1,0 +1,28 @@
+.fullscreen-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7); // or rgba(26, 35, 126, 0.1) for tinted blue
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loader {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(#1a237e 20%, #40148c 50%, transparent 100%);
+    animation: spin 1s linear infinite;
+    mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black 100%);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black 100%);
+  }
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

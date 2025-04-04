@@ -1,3 +1,5 @@
-
-
+<div *ngIf="loaderService.isLoading$ | async" class="fullscreen-loader">
+  <div class="loader"></div>
+</div>
 <router-outlet />
+

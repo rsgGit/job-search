@@ -1,0 +1,37 @@
+<div class="job-page">
+    <div class="job-page-header" [class.shrink]="jobsSearched">
+        <h1 class="title" > Job With Sponsorship </h1>
+        <div class="search-query">
+            <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" />
+            <ng-select [items]="countries" placeholder="Select Location" [(ngModel)]="searchQuery.location"></ng-select>
+            <ng-select [items]="datePostedList" bindLabel="label" bindValue="hours" placeholder="Select Date Posted" [(ngModel)]="searchQuery.datePosted"></ng-select>
+            <button class="search-button" (click)="getJobs()"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+
+        </div>
+    </div>
+    <div></div>
+    <div class="content" *ngIf="jobsSearched">
+        <div class="job-list-section">
+            <div class="job-list">
+                <div *ngFor="let job of jobs" class="job-card" (click)="selectJob(job)"
+                    [class.selected]="job === selectedJob">
+                    <h3 class="job-title">{{job.title}}</h3>
+                    <p class="job-company">{{job.company}}</p>
+                    <p class="job-location">{{job.location}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="job-details-card" *ngIf="selectedJob">
+            <div class="job-details">
+                <div class="job-header">
+                    <h2>{{selectedJob.title}}</h2>
+                    <button class="apply-button" (click)="goToJobWebsite()">Apply Now</button>
+                </div>
+                <h3>{{selectedJob.company}}</h3>
+                <p><strong>Location: </strong> {{selectedJob.location}}</p>
+                <div [innerHTML]="selectedJob.description"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
