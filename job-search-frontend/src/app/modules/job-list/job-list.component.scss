@@ -11,7 +11,7 @@ $shadow-color: rgba(0, 0, 0, 0.15);
 
 .job-page {
     display: flex;
-    height: 95vh;
+    height: 100vh;
     flex-direction: column;
     background: $primary-color;
 
@@ -185,6 +185,18 @@ $shadow-color: rgba(0, 0, 0, 0.15);
         border-radius: 10px;
         box-shadow: 0 4px 8px $shadow-color;
         
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%; // inherits max-width from parent
+          }
+        
+          app-pagination {
+            display: flex;
+            justify-content: center;
+            width: auto;
+          }
 
         .job-list{
 
@@ -216,7 +228,9 @@ $shadow-color: rgba(0, 0, 0, 0.15);
                 transition: all 0.3s ease-in-out;
                 border: 1px solid $border-color;
                 box-shadow: 2px 2px 8px $shadow-color;
-                max-height: 110px;
+                min-height: 110px;
+                gap: 2px; // reduces vertical space
+
                 &:hover,
                 &.selected {
                     background: #eff4fe;
@@ -328,16 +342,82 @@ $shadow-color: rgba(0, 0, 0, 0.15);
     }
 }
 
-// Responsive Styles
-@media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-    }
 
-    .job-list-section,
-    .job-details-card {
+/* 🔸 Mobile: ≤768px */
+@media (max-width: 768px) {
+    .job-page {
+      .job-page-header {
+        .title {
+          font-size: clamp(18px, 6vw, 28px);
+        }
+  
+        .search-query {
+          flex-direction: column;
+          align-items: stretch;
+  
+          input.search-bar,
+          ng-select,
+          button.search-button {
+            width: 100%;
+            font-size: 1rem;
+          }
+  
+          button.search-button {
+            margin-top: 10px;
+          }
+        }
+      }
+  
+      .content {
+        flex-direction: column;
+        padding: 10px;
+      }
+  
+      .job-list-section,
+      .job-details-card {
         width: 100%;
-        height: 50vh;
-        /* Adjust for mobile view */
+      }
     }
+  }
+  
+  /* 🔸 Tablet: 769px–1024px */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .job-page {
+      .job-page-header {
+        .title {
+          font-size: clamp(20px, 4.5vw, 32px);
+        }
+  
+        .search-query {
+          flex-wrap: wrap;
+          justify-content: center;
+  
+          input.search-bar,
+          ng-select,
+          button.search-button {
+            font-size: 1rem;
+          }
+        }
+      }
+  
+      .content {
+        flex-direction: column;
+      }
+  
+      .job-list-section,
+      .job-details-card {
+        width: 100%;
+      }
+    }
+  }
+  
+
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    color: #1a237e !important;
+}
+
+ngb-pagination ::ng-deep ul > li.active > a {
+    background-color: #1a237e !important;
+    border-color: #1a237e !important;
 }

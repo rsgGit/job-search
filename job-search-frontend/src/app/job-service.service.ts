@@ -14,12 +14,12 @@ export class JobServiceService {
 
   }
 
-  getJobs(keyword:any, location:any, datePosted:any): Observable<any>  {
-    return this.http.get(this.authService.endpoint+'/load-jobs?keyword='+keyword+'&location='+location+'&date_posted='+datePosted);
+  getJobs(keyword:any, location:any, datePosted:any, page:any): Observable<any>  {
+    return this.http.get(this.authService.endpoint+'/load-jobs?keyword='+keyword+'&location='+location+'&date_posted='+datePosted+'&page='+page);
   }
 
   
-  getCountries() {
-    return this.http.get('https://restcountries.com/v3.1/independent?status=true&fields=name')
+  getCountries(): Observable<any>  {
+    return this.http.get(this.authService.endpoint+'/get-countries')
   }
 }

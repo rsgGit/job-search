@@ -12,6 +12,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +25,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbPaginationModule,
 
   ],
   providers: [

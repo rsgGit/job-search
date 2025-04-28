@@ -2,9 +2,9 @@
     <div class="job-page-header" [class.shrink]="jobsSearched">
         <h1 class="title" > Job With Sponsorship </h1>
         <div class="search-query">
-            <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" />
+            <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" (keydown)="enterClick($event)"/>
             <ng-select [items]="countries" placeholder="Select Location" [(ngModel)]="searchQuery.location"></ng-select>
-            <ng-select [items]="datePostedList" bindLabel="label" bindValue="hours" placeholder="Select Date Posted" [(ngModel)]="searchQuery.datePosted"></ng-select>
+            <ng-select [items]="datePostedList"  placeholder="Select Date Posted" [(ngModel)]="searchQuery.datePosted"></ng-select>
             <button class="search-button" (click)="getJobs()"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
 
         </div>
@@ -15,10 +15,21 @@
             <div class="job-list">
                 <div *ngFor="let job of jobs" class="job-card" (click)="selectJob(job)"
                     [class.selected]="job === selectedJob">
-                    <h3 class="job-title">{{job.title}}</h3>
-                    <p class="job-company">{{job.company}}</p>
-                    <p class="job-location">{{job.location}}</p>
+                        <h3 class="job-title">{{job.title}}</h3>
+                        <p class="job-company">{{job.company}}</p>
+                        <p class="job-location">{{job.country}}</p>
                 </div>
+                <div class="pagination-container">
+                    <ngb-pagination 
+                    [collectionSize]="collectionSize" 
+                    [(page)]="page" [pageSize]="pageSize" 
+                    (pageChange)="getJobs();"
+                    [boundaryLinks]="true" 
+                    [ellipses]="true"  
+                    [maxSize]="5"></ngb-pagination>
+            </div>
+           
+
             </div>
         </div>
         <div class="job-details-card" *ngIf="selectedJob">
@@ -29,6 +40,7 @@
                 </div>
                 <h3>{{selectedJob.company}}</h3>
                 <p><strong>Location: </strong> {{selectedJob.location}}</p>
+                <p><strong>Date Posted: </strong> {{selectedJob.date_posted }}</p>
                 <div [innerHTML]="selectedJob.description"></div>
             </div>
         </div>
