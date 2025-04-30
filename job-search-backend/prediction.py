@@ -57,8 +57,11 @@ async def get_predictions(i, data):
     })
     
     log(f"Applied model and calculated probability for batch {i}")
-    
-    # Ensure `apply_predictions` is async if needed
+      
+    return data
+
+async def get_predictions_and_save_predictions(i, data):
+    data = await get_predictions(i, data)
     apply_predictions(data)  # Change to await if apply_predictions is async
     log(f"Saved data for batch {i}")    
     return data
@@ -75,7 +78,7 @@ async def get_predictions_for_all_data(data):
     async def limited_get_predictions(i, sd):
         async with semaphore:
             log(f"Processing started for batch {i} with {len(sd)} records")
-            return await get_predictions(i, sd)
+            return await get_predictions_and_save_predictions(i, sd)
 
     tasks = [limited_get_predictions(i+1, sd) for i, sd in enumerate(subdata)]
     
@@ -193,5 +196,5 @@ def load_model_and_vectorizer():
     return model, vectorizer
 
 model, vectorizer = load_model_and_vectorizer()
-asyncio.run(apply_new_model())
+# asyncio.run(apply_new_model())
 

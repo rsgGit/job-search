@@ -3,17 +3,12 @@ from flask_cors import CORS
 from jobspy import scrape_jobs
 
 import pandas as pd
-from Job_Scraper import get_jobs
 import asyncio
 import aiohttp
 from db_utils import get_all_countries, get_jobs_with_sponsorship
 
 app = Flask(__name__)
 CORS(app)
-
-@app.route('/hello', methods=['GET'])
-def home():
-    return jsonify(message="Hello, Flask!")
 
 @app.route('/get-countries', methods=['GET'])
 def get_countries():

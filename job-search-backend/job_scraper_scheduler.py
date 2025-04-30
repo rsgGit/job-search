@@ -10,9 +10,10 @@ from flask_mysqldb import MySQL
 from jobspy import scrape_jobs
 import time
 import logging
+from prediction import get_predictions
 
 logging.basicConfig(
-    filename='app.log',
+    filename='logs/app.log',
     level = logging.INFO,
     format = '%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -47,7 +48,7 @@ async def scrape(platform, start_index, results_per_batch, keyword, location, da
                 offset=start_index,
                 location = location,
                 country_indeed = location,
-                hours_old=1778,
+                hours_old=168,
                 linkedin_fetch_description=True,
             )
         jobs = await loop.run_in_executor(executor, blocking_scrape)
@@ -84,7 +85,7 @@ async def scrape_all_platforms_for_location(location):
     tasks = [scrape_until_done(platform, location) for platform in ['indeed', 'glassdoor', 'linkedin']]
     results = await asyncio.gather(*tasks)
     combined = pd.concat([df for df in results if not df.empty], ignore_index=True)
-    
+    combined = await get_predictions(location, combined)
     add_jobs_to_table(combined, location)
     log(f"🌍 Done with location: {location} | Total Jobs: {len(combined)}")
     return combined  # ✅ Don't forget this

@@ -76,12 +76,12 @@ def add_jobs_to_table(jobs, country):
             jobs = jobs.where(pd.notnull(jobs), None)
 
             data_to_insert = [
-                (row['id'], row['title'], row['company'], row['description'], row['location'], country, row['job_url'], row['site'], row['date_posted'], row['company_logo']) 
+                (row['id'], row['title'], row['company'], row['description'], row['location'], country, row['job_url'], row['site'], row['date_posted'], row['company_logo'], row['sponsorship_provided_probability'], row['sponsorship_not_provided_probability'], row['sponsorship_uncertain_probability'], row['sponsorship_provided']) 
                 for _, row in jobs.iterrows()
             ]            
             insert_stmt = """
-                INSERT INTO jobs (job_id, title, company, description, location, country, url, platform, date_posted, company_logo) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,  %s)
+                INSERT INTO jobs (job_id, title, company, description, location, country, url, platform, date_posted, company_logo, sponsorship_provided_probability, sponsorship_not_provided_probability, sponsorship_uncertain_probability, sponsorship_provided) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s,  %s)
                 ON DUPLICATE KEY UPDATE
                     title = VALUES(title),
                     company = VALUES(company),
@@ -91,7 +91,12 @@ def add_jobs_to_table(jobs, country):
                     url = VALUES(url),
                     platform = VALUES(platform),
                     date_posted = VALUES(date_posted),
-                    company_logo = VALUES(company_logo)            
+                    company_logo = VALUES(company_logo),
+                    sponsorship_provided_probability = VALUES(sponsorship_provided_probability),
+                    sponsorship_not_provided_probability = VALUES(sponsorship_not_provided_probability),
+                    sponsorship_uncertain_probability = VALUES(sponsorship_uncertain_probability),
+                    sponsorship_provided = VALUES(sponsorship_provided)
+
             """
             cursor.executemany(insert_stmt, data_to_insert)      
 
