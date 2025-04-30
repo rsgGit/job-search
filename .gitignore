@@ -3,4 +3,5 @@ notebooks/data
 node_modules/
 job-search-backend/.conda
 job-search-backend/__pycache__
+logs/
 *.pyc
