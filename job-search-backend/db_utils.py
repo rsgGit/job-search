@@ -1,3 +1,5 @@
+import pymysql
+pymysql.install_as_MySQLdb()
 import MySQLdb
 from config import Config
 import pandas as pd
