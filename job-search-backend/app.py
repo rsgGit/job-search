@@ -5,7 +5,7 @@ from jobspy import scrape_jobs
 import pandas as pd
 import asyncio
 import aiohttp
-from db_utils import get_all_countries, get_jobs_with_sponsorship
+from .db_utils import get_all_countries, get_jobs_with_sponsorship
 
 app = Flask(__name__)
 CORS(app)

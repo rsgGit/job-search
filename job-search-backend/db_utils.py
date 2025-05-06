@@ -1,9 +1,9 @@
 import pymysql
 pymysql.install_as_MySQLdb()
 import MySQLdb
-from config import Config
+from .config import Config
 import pandas as pd
-from countries import COUNTRIES
+from .countries import COUNTRIES
 from datetime import date
 import math
 import datetime

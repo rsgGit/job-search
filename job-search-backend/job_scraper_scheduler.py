@@ -4,13 +4,13 @@ from concurrent.futures import ThreadPoolExecutor
 from timeit import default_timer
 import multiprocessing
 from datetime import datetime
-from db_utils import create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated
+from .db_utils import create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated
 from config import Config
 from flask_mysqldb import MySQL
 from jobspy import scrape_jobs
 import time
 import logging
-from prediction import get_predictions
+from .prediction import get_predictions
 
 logging.basicConfig(
     filename='logs/app.log',

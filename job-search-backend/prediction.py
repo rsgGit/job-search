@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import concurrent.futures
 import asyncio
-from db_utils import get_all_jobs, apply_predictions
+from .db_utils import get_all_jobs, apply_predictions
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing
 import time
