@@ -5,4 +5,4 @@ class Config:
     MYSQL_USER = os.getenv("MYSQLUSER")
     MYSQL_PASSWORD = os.getenv("MYSQLPASSWORD")
     MYSQL_DB = os.getenv("MYSQLDATABASE")
-    MYSQL_PORT = os.getenv("MYSQLPORT", 3306)
+    MYSQL_PORT = int(os.getenv("MYSQLPORT", 3306))  # Cast to int
