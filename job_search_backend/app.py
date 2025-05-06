@@ -8,6 +8,15 @@ from .db_utils import get_all_countries, get_jobs_with_sponsorship, create_datab
 import os
 app = Flask(__name__)
 
+def prepare_db():
+    print("Preparing the database...")
+    create_database_if_not_exists()
+    create_jobs_table()
+    create_countries_table()
+    add_countries()c
+
+prepare_db()
+
 @app.route("/")
 def home():
     return "Hellooo fromm Railway!"
@@ -36,14 +45,8 @@ def get_countries():
 #     if isinstance(page_data.get('data'), pd.DataFrame):
 #         page_data['data'] = page_data['data'].to_dict(orient='records')
 #     return jsonify(page_data)
-def prepare_db():
-    print("Preparing the database...")
-    create_database_if_not_exists()
-    create_jobs_table()
-    create_countries_table()
-    add_countries()
+
 
 if __name__ == "__main__":
-    prepare_db()
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
