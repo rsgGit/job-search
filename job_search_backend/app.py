@@ -11,11 +11,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hellooo from Railway!"
+    return "Hellooo fromm Railway!"
 
-# @app.route('/get-countries', methods=['GET'])
-# def get_countries():
-#     return jsonify(get_all_countries())
+@app.route('/get-countries', methods=['GET'])
+def get_countries():
+    return jsonify(get_all_countries())
 
 # @app.route('/load-jobs', methods=['GET'])
 # def load_jobs():
