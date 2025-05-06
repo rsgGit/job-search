@@ -36,9 +36,14 @@ def get_countries():
 #     if isinstance(page_data.get('data'), pd.DataFrame):
 #         page_data['data'] = page_data['data'].to_dict(orient='records')
 #     return jsonify(page_data)
-
+def prepare_db():
+    create_database_if_not_exists()
+    create_jobs_table()
+    create_countries_table()
+    add_countries()
 
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+    prepare_db()
