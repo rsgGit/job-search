@@ -154,18 +154,19 @@ def get_countries_that_are_not_updated():
 
 
 def get_all_countries():
-    connection = get_db_connection()
+    return ["A", "B", "C"]
+    # connection = get_db_connection()
 
-    query="""
-        SELECT name FROM countries
-    """
-    try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        results = cursor.fetchall()
-        return [res[0] for res in results]
-    finally:
-        connection.close()
+    # query="""
+    #     SELECT name FROM countries
+    # """
+    # try:
+    #     cursor = connection.cursor()
+    #     cursor.execute(query)
+    #     results = cursor.fetchall()
+    #     return [res[0] for res in results]
+    # finally:
+    #     connection.close()
 
 def get_start_date(date_posted):
     today = date.today()
