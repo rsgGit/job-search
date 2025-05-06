@@ -13,6 +13,11 @@ app = Flask(__name__)
 def home():
     return "Hellooo fromm Railway!"
 
+@app.route("/hello")
+def home():
+    return "Hellooo!"
+
+
 @app.route('/get-countries', methods=['GET'])
 def get_countries():
     return jsonify(get_all_countries())
