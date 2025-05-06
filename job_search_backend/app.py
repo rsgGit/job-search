@@ -13,7 +13,7 @@ def prepare_db():
     create_database_if_not_exists()
     create_jobs_table()
     create_countries_table()
-    add_countries()c
+    add_countries()
 
 prepare_db()
 
