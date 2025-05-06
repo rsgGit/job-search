@@ -4,7 +4,7 @@ from jobspy import scrape_jobs
 import pandas as pd
 import asyncio
 import aiohttp
-from .db_utils import get_all_countries, get_jobs_with_sponsorship
+from .db_utils import get_all_countries, get_jobs_with_sponsorship, create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated
 import os
 app = Flask(__name__)
 
@@ -37,13 +37,13 @@ def get_countries():
 #         page_data['data'] = page_data['data'].to_dict(orient='records')
 #     return jsonify(page_data)
 def prepare_db():
+    print("Preparing the database...")
     create_database_if_not_exists()
     create_jobs_table()
     create_countries_table()
     add_countries()
 
 if __name__ == "__main__":
-    import os
+    prepare_db()
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
-    prepare_db()
