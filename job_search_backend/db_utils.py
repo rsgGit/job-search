@@ -13,7 +13,8 @@ def get_raw_connection():
     return MySQLdb.connect(
         host = Config.MYSQL_HOST,
         user = Config.MYSQL_USER,
-        passwd = Config.MYSQL_PASSWORD
+        passwd = Config.MYSQL_PASSWORD,
+        port = Config.MYSQL_PORT
     )
 
 def get_db_connection():
@@ -21,7 +22,8 @@ def get_db_connection():
         host = Config.MYSQL_HOST,
         user = Config.MYSQL_USER,
         passwd = Config.MYSQL_PASSWORD,
-        db = Config.MYSQL_DB
+        db = Config.MYSQL_DB,
+        port = Config.MYSQL_PORT
     )
 
 def create_database_if_not_exists():

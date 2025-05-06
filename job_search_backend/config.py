@@ -1,5 +1,8 @@
+import os
+
 class Config:
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'root'
-    MYSQL_PASSWORD = ''
-    MYSQL_DB = 'jobs'
+    MYSQL_HOST = os.getenv("MYSQLHOST")
+    MYSQL_USER = os.getenv("MYSQLUSER")
+    MYSQL_PASSWORD = os.getenv("MYSQLPASSWORD")
+    MYSQL_DB = os.getenv("MYSQLDATABASE")
+    MYSQL_PORT = os.getenv("MYSQLPORT", 3306)
