@@ -1,7 +1,6 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from jobspy import scrape_jobs
-
 import pandas as pd
 import asyncio
 import aiohttp
@@ -14,7 +13,7 @@ def home():
     return "Hellooo fromm Railway!"
 
 @app.route("/hello")
-def home():
+def hello():
     return "Hellooo!"
 
 
