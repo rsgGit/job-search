@@ -10,6 +10,10 @@ from .db_utils import get_all_countries, get_jobs_with_sponsorship
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def hello():
+    return "Hello from Railway!"
+
 @app.route('/get-countries', methods=['GET'])
 def get_countries():
     return jsonify(get_all_countries())
