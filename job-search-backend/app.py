@@ -34,5 +34,5 @@ def load_jobs():
         page_data['data'] = page_data['data'].to_dict(orient='records')
     return jsonify(page_data)
 
-if _name_ == '__main__':
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
