@@ -1,1 +1,1 @@
-web: gunicorn job-search-backend.app:app
+web: gunicorn job_search_backend.app:app

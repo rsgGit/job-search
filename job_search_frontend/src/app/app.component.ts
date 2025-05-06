@@ -7,7 +7,7 @@ import { LoaderService } from './shared/loader/loader.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'job-search-frontend';
+  title = 'job_search_frontend';
   isLoading: boolean = false;
 
   constructor(public loaderService: LoaderService) {}

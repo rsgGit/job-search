@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "job-search-frontend": {
+    "job_search_frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/job-search-frontend",
+            "outputPath": "dist/job_search_frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "job-search-frontend:build:production"
+              "buildTarget": "job_search_frontend:build:production"
             },
             "development": {
-              "buildTarget": "job-search-frontend:build:development"
+              "buildTarget": "job_search_frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,7 +1,7 @@
 Misc/
 notebooks/data
 node_modules/
-job-search-backend/.conda
-job-search-backend/__pycache__
+job_search_backend/.conda
+job_search_backend/__pycache__
 logs/
 *.pyc
