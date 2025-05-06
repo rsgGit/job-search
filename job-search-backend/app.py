@@ -6,6 +6,7 @@ import pandas as pd
 import asyncio
 import aiohttp
 from .db_utils import get_all_countries, get_jobs_with_sponsorship
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -35,4 +36,5 @@ def load_jobs():
     return jsonify(page_data)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
