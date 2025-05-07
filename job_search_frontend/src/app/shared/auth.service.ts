@@ -5,5 +5,7 @@ import { Injectable } from "@angular/core";
   })
   export class AuthService {
   
-    endpoint: string = 'http://127.0.0.1:5000'; // localhost run
+    // endpoint: string = 'http://127.0.0.1:5000'; // localhost run
+    endpoint: string = 'https://web-production-86fc.up.railway.app'; 
+
   }
