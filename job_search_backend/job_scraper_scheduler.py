@@ -11,6 +11,8 @@ from jobspy import scrape_jobs
 import time
 import logging
 from .prediction import get_predictions
+from langdetect import detect
+from langdetect.lang_detect_exception import LangDetectException
 
 logging.basicConfig(
     filename='logs/app.log',
@@ -25,6 +27,12 @@ def log(msg):
     logging.info(msg)
     # now = datetime.now().strftime('%H:%M:%S.%f'[:-3])
     # print(f"[{now}] {msg}")
+
+def safe_detect(text):
+    try:
+        return detect(text)
+    except LangDetectException:
+        return "unknown"
 
 def prepare_db():
     create_database_if_not_exists()
@@ -85,6 +93,12 @@ async def scrape_all_platforms_for_location(location):
     tasks = [scrape_until_done(platform, location) for platform in ['indeed', 'glassdoor', 'linkedin']]
     results = await asyncio.gather(*tasks)
     combined = pd.concat([df for df in results if not df.empty], ignore_index=True)
+    combined = combined.dropna(subset=["description"])
+    combined = combined[combined["description"].str.strip() != ""]
+    combined = combined[combined["description"].str.len() >= 5]
+    combined["language"] = combined["description"].apply(safe_detect)
+    combined = combined[combined["language"] == "en"]
+
     combined = await get_predictions(location, combined)
     add_jobs_to_table(combined, location)
     log(f"🌍 Done with location: {location} | Total Jobs: {len(combined)}")

@@ -8,6 +8,9 @@ from datetime import date
 import math
 import datetime
 from dateutil.relativedelta import relativedelta
+from langdetect import detect
+from langdetect.lang_detect_exception import LangDetectException
+from tqdm import tqdm
 
 def get_raw_connection():
     return MySQLdb.connect(
@@ -302,5 +305,51 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
         return page_info
     finally:
         connection.close()
+
+def remove_jobs_that_are_older_than_three_months():
+    connection = get_db_connection()
+    query = """
+        DELETE * from jobs where (STR_TO_DATE(date_posted, '%Y-%m-%d') < (NOW() - INTERVAL 3 MONTH));
+    """
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+    finally:
+        connection.close()
+
+def remove_descriptions_that_are_not_english():
+    connection = get_db_connection()
+    query="""
+        SELECT id, description FROM jobs;
+    """
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        df = pd.DataFrame(results, columns=["id", "description"])
+        df = df.dropna()
+        df = df[df["description"].str.strip() != ""]
+        df = df[df["description"].str.len() >= 5]
+
+        def safe_detect(text):
+            try:
+                return detect(text)
+            except LangDetectException:
+                return "unknown"
+
+        tqdm.pandas(desc="Detecting language")
+        df["lang"] = df["description"].progress_apply(safe_detect)
+
+        non_english_df = df[df["lang"] != "en"][["id", "lang", "description"]]
+        non_english_ids = tuple(non_english_df["id"])
+        if non_english_ids:  # Only run DELETE if the list is not empty
+            delete_query = f"DELETE FROM jobs WHERE id IN %s"
+            cursor.execute(delete_query, (non_english_ids,))
+            connection.commit()
+            print(f"Removed {len(non_english_df)} jobs with non-English descriptions.")
+    finally:
+        connection.close()
+
 
 # (get_jobs(None, 'Qatar', None, 1, 50 ))

@@ -4,8 +4,9 @@ from jobspy import scrape_jobs
 import pandas as pd
 import asyncio
 import aiohttp
-from .db_utils import get_all_countries, get_jobs_with_sponsorship, create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated
+from .db_utils import get_all_countries, get_jobs_with_sponsorship, create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated, remove_jobs_that_are_older_than_three_months
 import os
+
 app = Flask(__name__)
 CORS(app, origins=["https://rsggit.github.io"])
 
