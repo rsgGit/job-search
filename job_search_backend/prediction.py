@@ -19,16 +19,25 @@ import time
 from timeit import default_timer
 from datetime import datetime
 import os
+import logging
+
+logging.basicConfig(
+    # filename= os.path.join(base_path, "logs/app.log"),
+    level = logging.INFO,
+    format = '%(asctime)s - %(levelname)s - %(message)s'
+)
+
+START_TIME = default_timer()
+def log(msg):
+    logging.info(msg)
+
+
 # This executor limits the number of threads at any given time
 executor = ThreadPoolExecutor()
 lemmatizer = WordNetLemmatizer()
 lock = multiprocessing.Lock()
 START_TIME = default_timer()
 CLEANR = re.compile(r'<\s*.*?\s*>')
-
-def log(msg):
-    now = datetime.now().strftime('%H:%M:%S.%f'[:-3])
-    print(f"[{now}] {msg}")
 
 async def get_predictions(i, data):
     loop = asyncio.get_event_loop()

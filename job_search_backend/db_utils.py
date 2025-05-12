@@ -11,6 +11,17 @@ from dateutil.relativedelta import relativedelta
 from langdetect import detect
 from langdetect.lang_detect_exception import LangDetectException
 from tqdm import tqdm
+import logging
+
+logging.basicConfig(
+    # filename= os.path.join(base_path, "logs/app.log"),
+    level = logging.INFO,
+    format = '%(asctime)s - %(levelname)s - %(message)s'
+)
+
+START_TIME = default_timer()
+def log(msg):
+    logging.info(msg)
 
 def get_raw_connection():
     return MySQLdb.connect(
@@ -33,7 +44,7 @@ def create_database_if_not_exists():
     conn = get_raw_connection()
     cursor = conn.cursor()
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {Config.MYSQL_DB}")
-    print(f"Database {Config.MYSQL_DB} ensured.")
+    log(f"Database {Config.MYSQL_DB} ensured.")
     cursor.close()
     conn.close()
 
@@ -215,7 +226,7 @@ def get_all_jobs(keyword, location, date_posted, page, elements_to_display=50):
     # Add date filter if start_date is set
     if (start_date!=None and start_date!=''):
         start_date_str = start_date.strftime('%Y-%m-%d')
-        print(start_date_str)
+        log(start_date_str)
         filter_query += f" AND (STR_TO_DATE(date_posted, '%%Y-%%m-%%d') > %s)"
         params.append({start_date_str})
 
@@ -242,7 +253,7 @@ def get_all_jobs(keyword, location, date_posted, page, elements_to_display=50):
             'current_page': page,
             'results_per_page': elements_to_display if page else None
         }
-        print(page_info['total'])
+        log(page_info['total'])
         return page_info
     finally:
         connection.close()
@@ -301,7 +312,7 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
             'current_page': page,
             'results_per_page': elements_to_display if page else None
         }
-        print(page_info['total'])
+        log(page_info['total'])
         return page_info
     finally:
         connection.close()
@@ -347,7 +358,7 @@ def remove_descriptions_that_are_not_english():
             delete_query = f"DELETE FROM jobs WHERE id IN %s"
             cursor.execute(delete_query, (non_english_ids,))
             connection.commit()
-            print(f"Removed {len(non_english_df)} jobs with non-English descriptions.")
+            log(f"Removed {len(non_english_df)} jobs with non-English descriptions.")
     finally:
         connection.close()
 

@@ -8,6 +8,7 @@ from .db_utils import get_all_countries, get_jobs_with_sponsorship, create_datab
 import os
 from .job_scraper_scheduler import scrape_jobs_from_each_country
 from flask_apscheduler import APScheduler
+import logging
 
 class Config:
     SCHEDULER_API_ENABLED = True
@@ -17,13 +18,23 @@ app = Flask(__name__)
 CORS(app, origins=["https://rsggit.github.io"])
 
 app.config.from_object(Config())
+logging.basicConfig(
+    # filename= os.path.join(base_path, "logs/app.log"),
+    level = logging.INFO,
+    format = '%(asctime)s - %(levelname)s - %(message)s'
+)
+
+START_TIME = default_timer()
 
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()
 
+def log(msg):
+    logging.info(msg)
+
 def prepare_db():
-    print("Preparing the database...")
+    log("Preparing the database...")
     create_database_if_not_exists()
     create_jobs_table()
     create_countries_table()
@@ -62,19 +73,19 @@ def load_jobs():
 
 @scheduler.task('cron', id='daily_scrape', hour = 12, minute = 00)
 def scrape_jobs():
-    print("Started scheduler for scraping jobs")
-    print("Started to scrape for jobs")
+    log("Started scheduler for scraping jobs")
+    log("Started to scrape for jobs")
     asyncio.run(scrape_jobs_from_each_country())
-    print("Scraping completed")
-    print("Started to remove jobs older than 3 months")
+    log("Scraping completed")
+    log("Started to remove jobs older than 3 months")
     remove_jobs_that_are_older_than_three_months()
-    print("Removed jobs older than 3 months")
-    print("Scheduler ended")
+    log("Removed jobs older than 3 months")
+    log("Scheduler ended")
 
 
-@scheduler.task('cron', id='daily_scrape', hour = 20, minute = 40)
+@scheduler.task('cron', id='daily_scrape', hour = 20, minute = 50)
 def test_scheduler():
-    print("Testing schedule")
+    log("Testing schedule")
     
 
 
