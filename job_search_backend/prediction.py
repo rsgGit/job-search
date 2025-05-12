@@ -18,7 +18,7 @@ import multiprocessing
 import time
 from timeit import default_timer
 from datetime import datetime
-
+import os
 # This executor limits the number of threads at any given time
 executor = ThreadPoolExecutor()
 lemmatizer = WordNetLemmatizer()
@@ -191,8 +191,13 @@ def get_features(data, vectorizer):
     return description_features
 
 def load_model_and_vectorizer():
-    model = pickle.load(open("../notebooks/model", 'rb'))
-    vectorizer = pickle.load(open("../notebooks/vectorizer", 'rb'))
+    base_path = os.path.dirname(os.path.abspath(__file__))  # path to the folder containing prediction.py
+    model_path = os.path.join(base_path, "model")  # update with actual filename if different
+    vectorizer_path = os.path.join(base_path, "vectorizer")  # update if actual name is different
+
+    model = pickle.load(open(model_path, 'rb'))
+    vectorizer = pickle.load(open(vectorizer_path, 'rb'))
+
     return model, vectorizer
 
 model, vectorizer = load_model_and_vectorizer()

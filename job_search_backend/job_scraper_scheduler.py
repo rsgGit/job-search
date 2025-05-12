@@ -2,20 +2,20 @@ import asyncio
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor
 from timeit import default_timer
-import multiprocessing
-from datetime import datetime
 from .db_utils import create_database_if_not_exists, create_jobs_table, add_jobs_to_table, create_countries_table, add_countries, get_countries_that_are_not_updated
-from config import Config
-from flask_mysqldb import MySQL
 from jobspy import scrape_jobs
 import time
 import logging
 from .prediction import get_predictions
 from langdetect import detect
 from langdetect.lang_detect_exception import LangDetectException
+from datetime import datetime, timedelta
+import os
+
+base_path = os.path.dirname(os.path.abspath(__file__))  # path to the folder containing prediction.py
 
 logging.basicConfig(
-    filename='logs/app.log',
+    filename= os.path.join(base_path, "logs/app.log"),
     level = logging.INFO,
     format = '%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -56,7 +56,7 @@ async def scrape(platform, start_index, results_per_batch, keyword, location, da
                 offset=start_index,
                 location = location,
                 country_indeed = location,
-                hours_old=168,
+                hours_old=24,
                 linkedin_fetch_description=True,
             )
         jobs = await loop.run_in_executor(executor, blocking_scrape)
@@ -89,10 +89,22 @@ async def scrape_until_done(platform, location):
     else:
         return pd.DataFrame()
 
+def remove_jobs_posted_three_months_ago(data):
+    data["date_obj"] = pd.to_datetime(data["date_posted"], errors="coerce")
+    three_months_ago = datetime.now() - timedelta(days=90)
+    data = data[data["date_obj"] > three_months_ago]
+    return data
+
 async def scrape_all_platforms_for_location(location):
     tasks = [scrape_until_done(platform, location) for platform in ['indeed', 'glassdoor', 'linkedin']]
     results = await asyncio.gather(*tasks)
     combined = pd.concat([df for df in results if not df.empty], ignore_index=True)
+    
+    # remove jobs with null date posted and jobs posted more than 3 months ago
+    combined = combined.dropna(subset=["date_posted"])
+    combined = remove_jobs_posted_three_months_ago(combined)
+
+    # remove jobs with null desc and non-english desc
     combined = combined.dropna(subset=["description"])
     combined = combined[combined["description"].str.strip() != ""]
     combined = combined[combined["description"].str.len() >= 5]
@@ -121,4 +133,4 @@ async def scrape_jobs_from_each_country():
     log(f"🎉 Completed all scraping in {elapsed_time:.2f}s")
 
 # Run the full async process
-asyncio.run(scrape_jobs_from_each_country())
+# asyncio.run(scrape_jobs_from_each_country())

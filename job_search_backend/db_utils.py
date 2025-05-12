@@ -309,7 +309,7 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
 def remove_jobs_that_are_older_than_three_months():
     connection = get_db_connection()
     query = """
-        DELETE * from jobs where (STR_TO_DATE(date_posted, '%Y-%m-%d') < (NOW() - INTERVAL 3 MONTH));
+        DELETE from jobs where (STR_TO_DATE(date_posted, '%Y-%m-%d') < (NOW() - INTERVAL 3 MONTH));
     """
     try:
         cursor = connection.cursor()
@@ -353,3 +353,4 @@ def remove_descriptions_that_are_not_english():
 
 
 # (get_jobs(None, 'Qatar', None, 1, 50 ))
+# remove_jobs_that_are_older_than_three_months()
