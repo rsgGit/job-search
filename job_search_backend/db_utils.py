@@ -12,6 +12,7 @@ from langdetect import detect
 from langdetect.lang_detect_exception import LangDetectException
 from tqdm import tqdm
 import logging
+from timeit import default_timer
 
 logging.basicConfig(
     # filename= os.path.join(base_path, "logs/app.log"),

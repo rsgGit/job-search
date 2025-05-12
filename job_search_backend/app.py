@@ -9,6 +9,7 @@ import os
 from .job_scraper_scheduler import scrape_jobs_from_each_country
 from flask_apscheduler import APScheduler
 import logging
+from timeit import default_timer
 
 class Config:
     SCHEDULER_API_ENABLED = True
