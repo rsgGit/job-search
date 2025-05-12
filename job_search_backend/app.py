@@ -72,7 +72,7 @@ def load_jobs():
         page_data['data'] = page_data['data'].to_dict(orient='records')
     return jsonify(page_data)
 
-@scheduler.task('cron', id='daily_scrape', hour = 12, minute = 00)
+@scheduler.task('cron', id='daily_scrape', hour = 22, minute = 30)
 def scrape_jobs():
     log("Started scheduler for scraping jobs")
     log("Started to scrape for jobs")
@@ -82,12 +82,6 @@ def scrape_jobs():
     remove_jobs_that_are_older_than_three_months()
     log("Removed jobs older than 3 months")
     log("Scheduler ended")
-
-
-@scheduler.task('cron', id='daily_scrape', hour = 22, minute = 25)
-def test_scheduler():
-    log("Testing schedule")
-    
 
 
 if __name__ == "__main__":
