@@ -15,7 +15,7 @@ import os
 base_path = os.path.dirname(os.path.abspath(__file__))  # path to the folder containing prediction.py
 
 logging.basicConfig(
-    filename= os.path.join(base_path, "logs/app.log"),
+    # filename= os.path.join(base_path, "logs/app.log"),
     level = logging.INFO,
     format = '%(asctime)s - %(levelname)s - %(message)s'
 )
