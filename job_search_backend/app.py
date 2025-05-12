@@ -84,7 +84,7 @@ def scrape_jobs():
     log("Scheduler ended")
 
 
-@scheduler.task('cron', id='daily_scrape', hour = 20, minute = 50)
+@scheduler.task('cron', id='daily_scrape', hour = 22, minute = 00)
 def test_scheduler():
     log("Testing schedule")
     
