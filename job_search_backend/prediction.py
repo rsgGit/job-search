@@ -9,6 +9,7 @@ nltk.data.path.append(LOCAL_NLTK_DIR)
 
 # Download resources to this local folder
 # nltk.download('punkt', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('punkt_tab', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('wordnet', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('averaged_perceptron_tagger', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('omw-1.4', download_dir=LOCAL_NLTK_DIR)
