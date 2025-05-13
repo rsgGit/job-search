@@ -4,14 +4,14 @@ import os
 import nltk
 
 LOCAL_NLTK_DIR = os.path.join(os.path.dirname(__file__), 'nltk_data')
-os.makedirs(LOCAL_NLTK_DIR, exist_ok=True)
+# os.makedirs(LOCAL_NLTK_DIR, exist_ok=True)
 nltk.data.path.append(LOCAL_NLTK_DIR)
 
 # Download resources to this local folder
-nltk.download('punkt', download_dir=LOCAL_NLTK_DIR)
-nltk.download('wordnet', download_dir=LOCAL_NLTK_DIR)
-nltk.download('averaged_perceptron_tagger', download_dir=LOCAL_NLTK_DIR)
-nltk.download('omw-1.4', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('punkt', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('wordnet', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('averaged_perceptron_tagger', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('omw-1.4', download_dir=LOCAL_NLTK_DIR)
 
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag

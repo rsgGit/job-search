@@ -72,7 +72,7 @@ def load_jobs():
         page_data['data'] = page_data['data'].to_dict(orient='records')
     return jsonify(page_data)
 
-@scheduler.task('cron', id='daily_scrape', hour = 14, minute = 7)
+@scheduler.task('cron', id='daily_scrape', hour = 14, minute = 30)
 def scrape_jobs():
     log("Started scheduler for scraping jobs")
     log("Started to scrape for jobs")
