@@ -1,12 +1,10 @@
 import pickle
 import re
 import nltk
+nltk.data.path.append('./nltk_data')
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.stem import WordNetLemmatizer
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('punkt')
 from nltk.corpus import wordnet
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd

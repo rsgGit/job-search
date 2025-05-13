@@ -56,7 +56,7 @@ async def scrape(platform, start_index, results_per_batch, keyword, location, da
                 offset=start_index,
                 location = location,
                 country_indeed = location,
-                hours_old=72,
+                hours_old=96,
                 linkedin_fetch_description=True,
             )
         jobs = await loop.run_in_executor(executor, blocking_scrape)
