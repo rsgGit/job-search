@@ -12,6 +12,7 @@ nltk.data.path.append(LOCAL_NLTK_DIR)
 # nltk.download('punkt_tab', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('wordnet', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('averaged_perceptron_tagger', download_dir=LOCAL_NLTK_DIR)
+# nltk.download('averaged_perceptron_tagger_eng', download_dir=LOCAL_NLTK_DIR)
 # nltk.download('omw-1.4', download_dir=LOCAL_NLTK_DIR)
 
 from nltk.tokenize import word_tokenize
