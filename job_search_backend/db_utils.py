@@ -40,7 +40,7 @@ def get_db_connection(retries=3, delay=5):
                 user = Config.MYSQL_USER,
                 passwd = Config.MYSQL_PASSWORD,
                 db = Config.MYSQL_DB,
-                connect_timeout=10
+                connect_timeout=10,
                 port = Config.MYSQL_PORT
             )
         except pymysql.err.OperationalError as e:
