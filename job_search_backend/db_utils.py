@@ -29,17 +29,36 @@ def get_raw_connection():
         host = Config.MYSQL_HOST,
         user = Config.MYSQL_USER,
         passwd = Config.MYSQL_PASSWORD,
-        port = Config.MYSQL_PORT
+        # port = Config.MYSQL_PORT
     )
 
-def get_db_connection():
-    return MySQLdb.connect(
-        host = Config.MYSQL_HOST,
-        user = Config.MYSQL_USER,
-        passwd = Config.MYSQL_PASSWORD,
-        db = Config.MYSQL_DB,
-        port = Config.MYSQL_PORT
-    )
+def get_db_connection(retries=3, delay=5):
+    for attempt in range(retries):
+        try:
+            return MySQLdb.connect(
+                host = Config.MYSQL_HOST,
+                user = Config.MYSQL_USER,
+                passwd = Config.MYSQL_PASSWORD,
+                db = Config.MYSQL_DB,
+                connect_timeout=10
+                port = Config.MYSQL_PORT
+            )
+        except pymysql.err.OperationalError as e:
+            print(f"[Attempt {attempt+1}] DB connection failed: {e}")
+            if attempt < retries - 1:
+                time.sleep(delay)
+            else:
+                raise
+
+
+# def get_db_connection():
+#     return MySQLdb.connect(
+#         host = Config.MYSQL_HOST,
+#         user = Config.MYSQL_USER,
+#         passwd = Config.MYSQL_PASSWORD,
+#         db = Config.MYSQL_DB,
+#         # port = Config.MYSQL_PORT
+#     )
 
 def create_database_if_not_exists():
     conn = get_raw_connection()
