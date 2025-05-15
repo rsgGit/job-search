@@ -13,6 +13,7 @@ from langdetect.lang_detect_exception import LangDetectException
 from tqdm import tqdm
 import logging
 from timeit import default_timer
+import time
 
 logging.basicConfig(
     # filename= os.path.join(base_path, "logs/app.log"),
@@ -310,15 +311,16 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
         params.append({start_date_str})
 
     # Add LIMIT and OFFSET directly to the query sring (not as parameters)
+    paginated_query = filter_query
     if(page!=None and elements_to_display!=None):
-        filter_query += f" LIMIT {elements_to_display} OFFSET {offset}"
+        paginated_query += f" LIMIT {elements_to_display} OFFSET {offset}"
 
     try:
         cursor = connection.cursor(MySQLdb.cursors.DictCursor)
         params = tuple(params)
 
         # Execute the main query with parameters correctly
-        cursor.execute((query+filter_query), params)
+        cursor.execute((query+paginated_query), params)
         results = cursor.fetchall()
 
         cursor.execute((count_query+filter_query), params)
