@@ -29,7 +29,7 @@ def get_raw_connection():
         host = Config.MYSQL_HOST,
         user = Config.MYSQL_USER,
         passwd = Config.MYSQL_PASSWORD,
-        # port = Config.MYSQL_PORT
+        port = Config.MYSQL_PORT
     )
 
 def get_db_connection(retries=3, delay=5):
