@@ -12,7 +12,7 @@ export class JobListComponent {
   jobs:any = []
   datePostedList:any = ['24 hours ago', '3 days ago', '1 week ago', '1 month ago']
   selectedJob:any = {}
-  searchQuery:any = {keyword:'', location:'', datePosted:''}
+  searchQuery:any = {keyword:'', location:null, datePosted:null}
   countries:any[] = []
   jobsSearched:any = false
   page = 1;
@@ -39,9 +39,8 @@ export class JobListComponent {
   }
 
   getJobs(){
-    this.jobsSearched = true
     console.log(this.searchQuery)
-    this.jobService.getJobs(this.searchQuery.keyword, this.searchQuery.location, this.searchQuery.datePosted, this.page).subscribe({
+    this.jobService.getJobs(this.searchQuery.keyword, this.searchQuery.location==null?'':this.searchQuery.location, this.searchQuery.datePosted==null?'':this.searchQuery.datePosted, this.page).subscribe({
       next:((res:any)=>{
         console.log(res)
         this.jobs = res.data
@@ -50,6 +49,11 @@ export class JobListComponent {
         this.collectionSize = res.total
         console.log(this.page, this.pageSize, this.collectionSize)
         if(this.jobs.length>0)this.selectJob(this.jobs[0])
+        else{
+          this.selectedJob = null
+          // this.selectedJob.description = 'No jobs found'
+        }
+        this.jobsSearched = true 
       }),
       error:(err=>{
         console.log(err)
@@ -58,6 +62,7 @@ export class JobListComponent {
   }
 
   selectJob(job:any){
+    console.log("selected")
     job['description'] = marked(job['description'])
     this.selectedJob = job
   }

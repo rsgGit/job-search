@@ -11,7 +11,13 @@
     </div>
     <div></div>
     <div class="content" *ngIf="jobsSearched">
-        <div class="job-list-section">
+
+        <div class="no-job-section"  *ngIf="!selectedJob">
+            <img style="width: 25%;" src="assets/no_results.png"/>
+            <h2><b>Sorry, we couldn't find any matching jobs...</b></h2>
+        </div>
+
+        <div class="job-list-section" *ngIf="selectedJob">
             <div class="job-list">
                 <div *ngFor="let job of jobs" class="job-card" (click)="selectJob(job)"
                     [class.selected]="job === selectedJob">
@@ -19,7 +25,7 @@
                         <p class="job-company">{{job.company}}</p>
                         <p class="job-location">{{job.country}}</p>
                 </div>
-                <div class="pagination-container">
+                <div class="pagination-container" *ngIf="jobs.length>0">
                     <ngb-pagination 
                     [collectionSize]="collectionSize" 
                     [(page)]="page" [pageSize]="pageSize" 
