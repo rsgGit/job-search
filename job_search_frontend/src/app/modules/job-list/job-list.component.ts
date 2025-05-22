@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import {marked} from 'marked';
 import { JobServiceService } from '../../job-service.service';
 import { LoaderService } from '../../shared/loader/loader.service';
+import {MatBottomSheet, MatBottomSheetModule, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
@@ -18,12 +20,17 @@ export class JobListComponent {
   page = 1;
   pageSize = 0;
   collectionSize = 0;
-  
-  constructor(private jobService:JobServiceService){
+  isMobileView: boolean = false;
+  jobModalRef:MatBottomSheetRef | undefined
+  activeFilter: string | null = null;
+
+  constructor(private jobService:JobServiceService, private bottomSheet:MatBottomSheet){
 
   }
 
   ngOnInit(){
+    this.checkScreenSize();
+    window.addEventListener('resize', this.checkScreenSize.bind(this));
     this.getCountries()
   }
 
@@ -39,16 +46,17 @@ export class JobListComponent {
   }
 
   getJobs(){
-    console.log(this.searchQuery)
     this.jobService.getJobs(this.searchQuery.keyword, this.searchQuery.location==null?'':this.searchQuery.location, this.searchQuery.datePosted==null?'':this.searchQuery.datePosted, this.page).subscribe({
       next:((res:any)=>{
-        console.log(res)
         this.jobs = res.data
         this.page = res.current_page
         this.pageSize = res.results_per_page
         this.collectionSize = res.total
-        console.log(this.page, this.pageSize, this.collectionSize)
-        if(this.jobs.length>0)this.selectJob(this.jobs[0])
+        this.activeFilter = null
+        if(this.jobs.length>0){
+          this.selectJob(this.jobs[0])
+          document.getElementById("scrollContainer")?.scrollTo({ top: 0, behavior: 'smooth' })
+        }
         else{
           this.selectedJob = null
           // this.selectedJob.description = 'No jobs found'
@@ -61,8 +69,12 @@ export class JobListComponent {
     })
   }
 
+  searchJobs(){
+    this.page = 1
+    this.getJobs()
+  }
+
   selectJob(job:any){
-    console.log("selected")
     job['description'] = marked(job['description'])
     this.selectedJob = job
   }
@@ -72,8 +84,27 @@ export class JobListComponent {
   }
 
   enterClick(event:any){
-    if(event.key=="Enter") this.getJobs()
+    if(event.key=="Enter") this.searchJobs()
   }
  
+  toggleFilter(filter: string) {
+    this.activeFilter = this.activeFilter === filter ? null : filter;
+  }
+
+  checkScreenSize() {
+    this.isMobileView = window.innerWidth <= 1024;
+  }
+
+  openModal(job:any, modal:any){
+    this.selectJob(job)
+    this.bottomSheet.open(modal,
+      {
+        panelClass: 'full-width'
+      })
+  }
+  
+  closeModal(){
+    this.bottomSheet.dismiss()
+  }
 
 }

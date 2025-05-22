@@ -13,6 +13,10 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     NgSelectModule,
     NgbPaginationModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatSidenavModule,
+    BrowserAnimationsModule
 
   ],
   providers: [

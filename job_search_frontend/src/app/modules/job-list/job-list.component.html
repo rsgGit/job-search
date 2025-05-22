@@ -1,15 +1,37 @@
 <div class="job-page">
-    <div class="job-page-header" [class.shrink]="jobsSearched">
-        <h1 class="title" > Job With Sponsorship </h1>
-        <div class="search-query">
+  
+    <div class="job-page-header" [class.shrink]="jobsSearched" >
+        <h1 class="title" style="cursor: pointer;" onclick="window.location.reload()"> Job With Sponsorship </h1>
+        <div class="search-query" *ngIf="!jobsSearched||!isMobileView">
             <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" (keydown)="enterClick($event)"/>
             <ng-select [items]="countries" placeholder="Select Location" [(ngModel)]="searchQuery.location"></ng-select>
             <ng-select [items]="datePostedList"  placeholder="Select Date Posted" [(ngModel)]="searchQuery.datePosted"></ng-select>
-            <button class="search-button" (click)="getJobs()"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+            <button class="search-button" (click)="searchJobs()"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
 
         </div>
     </div>
-    <div></div>
+    <div class="job-page-header-mobile" *ngIf="isMobileView&&jobsSearched" [class.shrink]="jobsSearched" >
+    <!-- class="flex justify-between items-center px-3 py-2 shadow rounded-lg sticky top-0 z-50"  -->
+      <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" (keydown)="enterClick($event)"/>
+      <button (click)="toggleFilter('location')" class="icon-button">
+        <i class="fa-solid fa-location-dot text-lg"></i>
+      </button>
+    
+      <!-- Internship Type -->
+      <button (click)="toggleFilter('datePosted')"  class="icon-button">
+        <i class="fa-solid fa-clock text-lg"></i>
+      </button>
+      <button class="go-button" (click)="searchJobs()"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+      </div>
+      
+      <!-- Dynamic ng-select display based on activeFilter -->
+      <!-- <div *ngIf="activeFilter === 'location'" class="p-2"> -->
+        <ng-select [items]="countries" placeholder="Select Location" class="p-2" [(ngModel)]="searchQuery.location" *ngIf="activeFilter === 'location'"></ng-select>
+        <ng-select [items]="datePostedList"  placeholder="Select Date Posted" [(ngModel)]="searchQuery.datePosted" *ngIf="activeFilter === 'datePosted'"></ng-select>
+
+      <!-- </div> -->
+     
     <div class="content" *ngIf="jobsSearched">
 
         <div class="no-job-section"  *ngIf="!selectedJob">
@@ -18,27 +40,26 @@
         </div>
 
         <div class="job-list-section" *ngIf="selectedJob">
-            <div class="job-list">
-                <div *ngFor="let job of jobs" class="job-card" (click)="selectJob(job)"
+            <div class="job-list" id="scrollContainer" >
+                <div *ngFor="let job of jobs" class="job-card" (click)="isMobileView?openModal(job, jobDetailsModal): selectJob(job)"
                     [class.selected]="job === selectedJob">
                         <h3 class="job-title">{{job.title}}</h3>
                         <p class="job-company">{{job.company}}</p>
                         <p class="job-location">{{job.country}}</p>
                 </div>
-                <div class="pagination-container" *ngIf="jobs.length>0">
-                    <ngb-pagination 
-                    [collectionSize]="collectionSize" 
-                    [(page)]="page" [pageSize]="pageSize" 
-                    (pageChange)="getJobs();"
-                    [boundaryLinks]="true" 
-                    [ellipses]="true"  
-                    [maxSize]="5"></ngb-pagination>
             </div>
-           
-
+            <div class="pagination-container" *ngIf="jobs.length>0">
+                <ngb-pagination 
+                [collectionSize]="collectionSize" 
+                [(page)]="page" [pageSize]="pageSize" 
+                (pageChange)="getJobs();"
+                [boundaryLinks]="true" 
+                [ellipses]="true"  
+                [maxSize]="isMobileView ? 3 : 5"
+                ></ngb-pagination>
             </div>
         </div>
-        <div class="job-details-card" *ngIf="selectedJob">
+        <div class="job-details-card" *ngIf="selectedJob && !isMobileView">
             <div class="job-details">
                 <div class="job-header">
                     <h2>{{selectedJob.title}}</h2>
@@ -46,10 +67,29 @@
                 </div>
                 <h3>{{selectedJob.company}}</h3>
                 <p><strong>Location: </strong> {{selectedJob.location}}</p>
-                <p><strong>Date Posted: </strong> {{selectedJob.date_posted }}</p>
+                <p><strong>Date Posted: </strong> {{selectedJob.date_posted | date: 'dd MMM, yyyy' }}</p>
                 <div [innerHTML]="selectedJob.description"></div>
             </div>
         </div>
     </div>
 
 </div>
+
+<ng-template #jobDetailsModal>
+    <div class="job-details-modal">
+        <button class="close-button" (click)="closeModal()">✕</button>
+        <div class="modal-content">
+            <br>
+          <div class="job-details">
+            <div class="job-header">
+              <h2>{{ selectedJob.title }}</h2>
+              <button class="apply-button" (click)="goToJobWebsite()">Apply Now</button>
+            </div>
+            <h3>{{ selectedJob.company }}</h3>
+            <p><strong>Location:</strong> {{ selectedJob.location }}</p>
+            <p><strong>Date Posted:</strong> {{ selectedJob.date_posted | date: 'dd MMM, yyyy' }}</p>
+            <div [innerHTML]="selectedJob.description"></div>
+          </div>
+        </div>
+      </div>
+</ng-template>
