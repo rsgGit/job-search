@@ -1,7 +1,7 @@
 <div class="job-page">
   
     <div class="job-page-header" [class.shrink]="jobsSearched" >
-        <h1 class="title" style="cursor: pointer;" onclick="window.location.reload()"> Job With Sponsorship </h1>
+        <h1 class="title" style="cursor: pointer;" onclick="window.location.reload()"> Jobs With Sponsorship </h1>
         <div class="search-query" *ngIf="!jobsSearched||!isMobileView">
             <input type="text" placeholder="Search for jobs..." [(ngModel)]="searchQuery.keyword" class="search-bar" (keydown)="enterClick($event)"/>
             <ng-select [items]="countries" placeholder="Select Location" [(ngModel)]="searchQuery.location"></ng-select>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="job-details-card" *ngIf="selectedJob && !isMobileView">
-            <div class="job-details">
+            <div class="job-details" id="scrollContainerDescription">
                 <div class="job-header">
                     <h2>{{selectedJob.title}}</h2>
                     <button class="apply-button" (click)="goToJobWebsite()">Apply Now</button>

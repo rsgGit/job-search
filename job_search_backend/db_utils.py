@@ -216,6 +216,7 @@ def get_start_date(date_posted):
         start_date = today - datetime.timedelta(weeks=1)
     elif date_posted == '1 month ago':
         start_date = today - relativedelta(months=1)
+    return start_date
 
 def get_all_jobs(keyword, location, date_posted, page, elements_to_display=50):
     connection = get_db_connection()
@@ -311,6 +312,8 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
         params.append({start_date_str})
 
     # Add LIMIT and OFFSET directly to the query sring (not as parameters)
+    filter_query += " ORDER BY date_posted DESC "
+
     paginated_query = filter_query
     if(page!=None and elements_to_display!=None):
         paginated_query += f" LIMIT {elements_to_display} OFFSET {offset}"

@@ -77,6 +77,8 @@ export class JobListComponent {
   selectJob(job:any){
     job['description'] = marked(job['description'])
     this.selectedJob = job
+    document.getElementById("scrollContainerDescription")?.scrollTo({ top: 0, behavior: 'smooth' })
+
   }
 
   goToJobWebsite(){
