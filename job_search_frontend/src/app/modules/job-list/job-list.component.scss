@@ -309,7 +309,7 @@ html, body {
         .job-list{
 
 
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             max-height: 90%;
             -webkit-overflow-scrolling: touch;  // <-- important for mobile momentum scroll
@@ -382,7 +382,7 @@ html, body {
 
 .job-details {
 
-  overflow-y: auto;
+  overflow-y: scroll;
   max-height: 100%;
   padding-right: 10px;
 
@@ -481,7 +481,7 @@ html, body {
       background: $card-bg;
       padding: 20px;
       height: 100%;
-      overflow-y: auto;
+      overflow-y: scroll;
       border-radius: 10px;
       // z-index: 2100;
       width: 100%;
@@ -554,7 +554,7 @@ html, body {
 
         .job-list {
           max-height: 87%;  // set height relative to viewport height on mobile
-          overflow-y: auto;
+          overflow-y: scroll;
           -webkit-overflow-scrolling: touch;
         }
       }
@@ -624,7 +624,7 @@ html, body {
 
         .job-list {
           max-height: 87%;  // set height relative to viewport height on mobile
-          overflow-y: auto;
+          overflow-y: scroll;
           -webkit-overflow-scrolling: touch;
         }
       }
