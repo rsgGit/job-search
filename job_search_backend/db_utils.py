@@ -89,7 +89,11 @@ def create_jobs_table():
             sponsorship_not_provided_probability DOUBLE,
             sponsorship_uncertain_probability DOUBLE,
             sponsorship_provided VARCHAR(100),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FULLTEXT KEY ft_title_description (title, description),
+            INDEX idx_sponsorship_provided (sponsorship_provided),
+            INDEX idx_country (country),
+            INDEX idx_date_posted (date_posted)
         )
     """)
     cursor.close()
