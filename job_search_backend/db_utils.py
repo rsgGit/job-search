@@ -296,9 +296,10 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
 
     # Add keyword search if keyword is set
     if (keyword!=None and keyword!=''):
-        filter_query += f" AND (title LIKE %s OR description LIKE %s) "
-        params.append(f'%{keyword}%')
-        params.append(f'%{keyword}%')
+        filter_query += f" AND MATCH(title, description) AGAINST (%s IN NATURAL LANGUAGE MODE) "
+        # filter_query += f" AND (title LIKE %s OR description LIKE %s) "
+        params.append(f'{keyword}')
+        # params.append(f'%{keyword}%')
 
     # Add location filter if location is set
     if (location!=None and location!=''):
@@ -308,7 +309,8 @@ def get_jobs_with_sponsorship(keyword, location, date_posted, page, elements_to_
     # Add date filter if start_date is set
     if (start_date!=None and start_date!=''):
         start_date_str = start_date.strftime('%Y-%m-%d')
-        filter_query += f" AND (STR_TO_DATE(date_posted, '%%Y-%%m-%%d') > %s)"
+        # filter_query += f" AND (STR_TO_DATE(date_posted, '%%Y-%%m-%%d') > %s)"
+        filter_query += f" AND date_posted > %s "
         params.append({start_date_str})
 
     # Add LIMIT and OFFSET directly to the query sring (not as parameters)
