@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "/Users/georgechempalathara/Desktop/Folders/Rithika/Projects/.conda/lib/python3.11.9/site-packages",
+        "./test_",
+        "./test_",
+        "./test_"
+    ]
+}
