@@ -1,7 +1,7 @@
 Misc/
-model_building/data
-model_building/models_and_resources
-model_building/helpers
+model_building/data/
+model_building/models_and_resources/
+model_building/helpers/
 node_modules/
 job_search_backend/.conda
 job_search_backend/__pycache__
