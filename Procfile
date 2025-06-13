@@ -1,1 +1,1 @@
-web: echo "No start command needed"
+worker: python job_search_backend/scheduler.py
