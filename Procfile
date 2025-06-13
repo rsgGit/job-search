@@ -1,1 +1,1 @@
-worker: python job_search_backend/scheduler.py
+worker: python -m job_search_backend/scheduler.py
