@@ -17,4 +17,5 @@ def scrape_jobs():
     log("Removed jobs older than 3 months")
     log("Scheduler ended")
 
-log("Schedule Test working")
+# log("Schedule Test working")
+scrape_jobs()
