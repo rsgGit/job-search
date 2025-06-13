@@ -1,7 +1,7 @@
 import logging
 import asyncio
-from job_scraper_scheduler import scrape_jobs_from_each_country
-from db_utils import remove_jobs_that_are_older_than_three_months
+from .job_scraper_scheduler import scrape_jobs_from_each_country
+from .db_utils import remove_jobs_that_are_older_than_three_months
 
 
 def log(msg):
