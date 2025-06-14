@@ -1,11 +1,12 @@
 # Job Sponsorship Predictor
 
-A full-stack web application that automatically scrapes job listings, predicts visa sponsorship likelihood using a trained machine learning model, and presents filtered results on a user-friendly Angular frontend.
+A full-stack AI-powered job search platform that scrapes job listings, predicts visa sponsorship likelihood using a machine learning model, and displays filtered results through a modern Angular frontend.
 
 ## Live Demo
 
-- **Frontend:** Hosted on [GitHub Pages](https://your-username.github.io/your-repo-name)
-- **Backend API:** Hosted on [Railway](https://railway.app)
+- **Frontend:** Hosted on GitHub Pages
+- **Backend API:** Hosted on Render
+- **Database & Scheduler:** Powered by Railway
 
 ## Features
 
@@ -25,9 +26,10 @@ A full-stack web application that automatically scrapes job listings, predicts v
 ## Tech Stack
 
 - **Frontend:** Angular, TypeScript, GitHub Pages
-- **Backend:** Flask, Python, Railway
+- **Backend:** Flask (Python), hosted on Render
 - **Machine Learning:** Scikit-learn model (trained using job descriptions)
-- **Database:** MySQL
+- **Database:** MySQL, hosted on Railway
+- **Scheduler** Railway Cron Jobs (for scraping & cleanup) using Python
 - **Scraping:** JobSpy
 
 ## Getting Started
@@ -50,6 +52,18 @@ A full-stack web application that automatically scrapes job listings, predicts v
 4. **Run the Flask Server**
    ```bash
    flask run
+
+### Running the Daily Job Scraper (schedule.py)
+
+The file schedule.py, located in the job_search_backend/ directory, is responsible for automating the following tasks:
+
+   1. Scraping new job listings using JobSpy
+   2. Running the machine learning model to predict sponsorship likelihood
+   3. Storing results in the database
+   4. Removing job listings older than 90 days
+
+To run this script daily, set up a cron job (or use the appropriate task scheduler for your system or deployment platform).
+
 
 ### Frontend
 
@@ -79,6 +93,13 @@ The machine learning model was trained in two notebooks:
   - **text_classification_model.ipynb** – for model training and evaluation
 
 The model predicts whether a job description implies visa sponsorship based on keywords and textual features.
+The data collection process began with scraping job listings using the JobSpy Python package. Each listing typically included fields such as job title, company name, location, full description, and posting date. Since the sponsorship status is not usually provided explicitly by job boards, a custom-built labeling tool—developed with Flask—was created to allow manual annotation. Each job was reviewed and labeled as either “sponsorship provided”, “no sponsorship provided” and "uncertain" based on the presence of key phrases (such as “visa sponsorship available” or “must be authorized to work”) and contextual language in the description.
+
+Before training, the text data underwent preprocessing in a Jupyter notebook (data-exploration.ipynb). This involved lowercasing, punctuation removal, stopword filtering, and tokenization. A TF-IDF (Term Frequency–Inverse Document Frequency) vectorizer was then used to transform the cleaned job descriptions into numerical representations that could be used as input features for model training.
+
+Model training and evaluation were carried out in a separate notebook (text_classification_model.ipynb). Several traditional classifiers were tested, including Naive Bayes, Random Forest, and Logistic Regression. Among these, Logistic Regression yielded the best balance of accuracy of around 95% and interpretability. The model’s performance was evaluated using standard classification metrics like accuracy, precision, recall, and F1-score, with special attention paid to its ability to correctly identify sponsorship-relevant listings. 
+
+Once trained, the final model was saved using joblib and integrated into the backend API. During the automated scraping process, each new job listing is passed through this model to infer its sponsorship likelihood, and the result is stored in the database.
 
 ## Automation Tasks
 
