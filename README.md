@@ -95,7 +95,9 @@ The machine learning model was trained in two notebooks:
 The model predicts whether a job description implies visa sponsorship based on keywords and textual features.
 The data collection process began with scraping job listings using the JobSpy Python package. Each listing typically included fields such as job title, company name, location, full description, and posting date. Since the sponsorship status is not usually provided explicitly by job boards, a custom-built labeling tool—developed with Flask—was created to allow manual annotation. Each job was reviewed and labeled as either “sponsorship provided”, “no sponsorship provided” and "uncertain" based on the presence of key phrases (such as “visa sponsorship available” or “must be authorized to work”) and contextual language in the description.
 
-![Labeller](./labeller.png)
+<p align="center">
+   <img src="./labeller.png" alt="Labeller" width="600" />
+</p>
 
 Before training, the text data underwent preprocessing in a Jupyter notebook (data-exploration.ipynb). This involved lowercasing, punctuation removal, stopword filtering, and tokenization. A TF-IDF (Term Frequency–Inverse Document Frequency) vectorizer was then used to transform the cleaned job descriptions into numerical representations that could be used as input features for model training.
 
